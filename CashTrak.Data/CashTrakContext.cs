@@ -10,8 +10,9 @@ namespace CashTrak.Data
 {
     public class CashTrakContext : DbContext
     {
-        public CashTrakContext(DbContextOptions options) : base(options)
+        public CashTrakContext(DbContextOptions options):base(options)
         {
+            var created = this.Database.EnsureCreated();
         }
 
         public virtual DbSet<MonthlyBudget> MonthlyBudgets { get; set; }
@@ -58,34 +59,6 @@ namespace CashTrak.Data
             });
 
             #region Seed
-
-            var expensesFaker = new Faker<Expense>()
-                .RuleFor(e => e.Id, f => f.Random.Guid())
-                .RuleFor(e => e.Description, f => f.Lorem.Lines(f.Random.Number(2)));
-
-            var budgetFaker = new Faker<MonthlyBudget>()
-                .RuleFor(m => m.Month, f => f.PickRandom<Month>())
-                .RuleFor(m => m.Budget, f => f.Random.Double() * f.Random.Number(1000))
-                .RuleFor(m => m.DateAdded,
-                    (f, m) => new DateTime(f.Random.Number(10), (int) m.Month.Value,
-                        f.Random.Number(m.Month?.GetLength() ?? 31)));
-
-            var budgets = budgetFaker.Generate(10);
-
-            expensesFaker = expensesFaker
-                .RuleFor(e => e.BudgetId, f => f.PickRandom(budgets.Select(x => x.Id)))
-                .RuleFor(e => e.ExpenseAmount,
-                    (f, m) => f.Random.Double(0D, budgets.Single(x => x.Id == m.BudgetId.Value).Budget ?? 0D))
-                .RuleFor(e => e.ExpenseDate, (f, e) => f.Date.Between(
-                    budgets.Single(x => x.Id == e.BudgetId).DateAdded ?? DateTime.Now,
-                    budgets.Single(x => x.Id == e.BudgetId).DateAdded
-                        ?.AddDays((double) budgets.Single(x => x.Id == e.BudgetId).Month?.GetLength()) ??
-                    DateTime.Now));
-            
-            var expenses = expensesFaker.Generate(new Random().Next(1, 20));
-
-            modelBuilder.Entity<MonthlyBudget>().HasData(budgets);
-            modelBuilder.Entity<Expense>().HasData(expenses);
 
             #endregion
         }

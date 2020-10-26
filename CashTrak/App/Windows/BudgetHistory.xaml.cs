@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using CashTrak.Data;
 
 namespace CashTrak.App.Windows
 {
