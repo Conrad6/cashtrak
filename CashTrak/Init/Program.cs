@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Navigation;
 using CashTrak.App;
 using CashTrak.Data;
 using CashTrak.Services;
@@ -29,7 +30,10 @@ namespace CashTrak.Init
             ServiceLocator.ServiceProvider = serviceCollection.BuildServiceProvider();
             var _ = ServiceLocator.Resolve<CashTrakContext>();
 
-            ServiceLocator.Resolve<MainApplication>().Run();
+            var application = ServiceLocator.Resolve<MainApplication>();
+            application.Exit += async (o, e) => { await _.Database.CurrentTransaction?.CommitAsync(); };
+            application.Startup += (o, e) => application.MainWindow?.Show();
+            application.Run();
         }
     }
 }

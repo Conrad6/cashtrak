@@ -1,7 +1,12 @@
 ﻿using System.Reflection;
+using System.Windows;
+using System.Windows.Navigation;
 using CashTrak.App;
-using CashTrak.App.Windows;
+using CashTrak.App.Pages;
+using CashTrak.App.ViewModels;
+using CashTrak.Core;
 using CashTrak.Data;
+using CashTrak.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +21,18 @@ namespace CashTrak.Services
         {
             var builder = new DbContextOptionsBuilder<CashTrakContext>()
                 .UseMySql(Configuration["DefaultConnection"]);
-            var dbOptions =  builder.Options;
-            
+            var dbOptions = builder.Options;
+
             services.AddSingleton(dbOptions);
-            services.AddDbContext<CashTrakContext>();
-            services.AddTransient<BudgetHistory>();
+            services.AddSingleton<Window, NavigationWindow>();
+            services.AddTransient(provider => provider.GetService<NavigationWindow>().NavigationService);
+            services.AddDbContext<CashTrakContext>(ServiceLifetime.Singleton);
+            
             services.AddSingleton<MainApplication>();
+            services.AddSingleton<BudgetHistoryPage>();
+            services.AddSingleton<NewBudgetEntryPage>();
+
+            services.AddTransient<BaseViewModel<MonthlyBudget>, NewBudgetEntryPageViewModel>();
         }
     }
 }
