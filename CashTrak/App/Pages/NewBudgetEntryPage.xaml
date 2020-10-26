@@ -3,9 +3,58 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:CashTrak.App.Pages"
+      xmlns:converters="clr-namespace:CashTrak.App.Ui.Converters"
       mc:Ignorable="d"
-      Title="New Budget Entry"
-      Height="450" Width="800">
-    <Grid />
+      Title="Enter new Budget"
+      Height="250" Width="350"
+      x:Name="Page"
+      WindowHeight="300"
+      WindowWidth="400"
+      DataContext="{Binding ElementName=Page, Path=ViewModel}">
+    <Page.Resources>
+        <converters:DoubleConverter x:Key="DoubleConverter"/>
+    </Page.Resources>
+    <Grid HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="New Budget"
+                   FontSize="25"
+                   FontWeight="Light"
+                   Grid.Column="1"/>
+        <Grid Grid.Row="1"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              Margin="0,25,0,0"
+              Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <Label Content="Budget Amount"/>
+                <TextBox Text="{Binding Budget, Converter={StaticResource DoubleConverter}}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <Label Content="Date"/>
+                <DatePicker SelectedDate="{Binding BudgetDate}"/>
+            </StackPanel>
+            <Button Grid.Row="2" Content="Save"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Margin="10"
+                    Padding="5"
+                    Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding .}"/>
+        </Grid>
+    </Grid>
 </Page>

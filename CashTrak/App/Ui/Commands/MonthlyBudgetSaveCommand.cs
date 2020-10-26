@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Windows.Input;
 using CashTrak.Core;
 
@@ -18,11 +20,13 @@ namespace CashTrak.App.Ui.Commands
 
         public bool CanExecute(object parameter)
         {
+            if (parameter is null) return false;
             var temp = _canExecute(parameter);
-            if (__canExecute == temp) return __canExecute;
+            if (temp == __canExecute) return __canExecute;
+
             __canExecute = temp;
             OnCanExecuteChanged();
-
+            
             return __canExecute;
         }
 

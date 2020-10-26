@@ -24,7 +24,7 @@ namespace CashTrak.Data
             modelBuilder.Entity<MonthlyBudget>(b =>
             {
                 b.HasKey(x => x.Id);
-                b.Property(x => x.Month).IsRequired();
+                b.Property(x => x.BudgetDate).IsRequired();
                 b.Property(x => x.DateAdded)
                     .HasValueGenerator<DateTimeGenerator>()
                     .ValueGeneratedOnAdd();

@@ -24,7 +24,7 @@ namespace CashTrak.Services
             var dbOptions = builder.Options;
 
             services.AddSingleton(dbOptions);
-            services.AddSingleton<Window, NavigationWindow>();
+            services.AddSingleton<NavigationWindow>();
             services.AddTransient(provider => provider.GetService<NavigationWindow>().NavigationService);
             services.AddDbContext<CashTrakContext>(ServiceLifetime.Singleton);
             

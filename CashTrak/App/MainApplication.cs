@@ -10,7 +10,7 @@ namespace CashTrak.App
 {
     public class MainApplication : Application
     {
-        public MainApplication(CashTrakContext cashTrakContext, Window mainWindow)
+        public MainApplication(CashTrakContext cashTrakContext, NavigationWindow mainWindow)
         {
             Page startupPage;
             if (cashTrakContext.MonthlyBudgets.Any())
@@ -22,7 +22,7 @@ namespace CashTrak.App
                 startupPage = ServiceLocator.Resolve<NewBudgetEntryPage>();
             }
 
-            if (mainWindow is NavigationWindow navWindow)
+            if (mainWindow is { } navWindow)
             {
                 navWindow.ShowsNavigationUI = false;
                 navWindow.Navigated += NavWindowOnNavigated;

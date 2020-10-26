@@ -11,7 +11,7 @@ using CashTrak.Extensions;
 
 namespace CashTrak.App.ViewModels
 {
-    public abstract class BaseViewModel<TEntity> : INotifyPropertyChanged, INotifyPropertyChanging, INotifyDataErrorInfo
+    public abstract class BaseViewModel<TEntity> : INotifyPropertyChanged, INotifyDataErrorInfo
         where TEntity : class, new()
     {
         public NavigationService NavigationService { get; }
@@ -19,49 +19,26 @@ namespace CashTrak.App.ViewModels
         private readonly ValidationContext _validationContext;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         protected BaseViewModel(NavigationService navigationService)
         {
             NavigationService = navigationService;
             Entity = new TEntity();
             _validationContext = new ValidationContext(this);
-            PropertyChanging += OnPropertyChanging;
-            PropertyChanged += OnPropertyChanged;
-            PropertyChanged += CheckErrors;
+//            PropertyChanged += CheckErrors;
         }
 
-        private void CheckErrors(object sender, PropertyChangedEventArgs e)
+        /*private void CheckErrors(object sender, PropertyChangedEventArgs e)
         {
-            if (GetErrors(e.PropertyName) != default(IEnumerable))
-                ErrorsChanged.Raise(this, new DataErrorsChangedEventArgs(e.PropertyName));
-        }
-
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (GetErrors(e.PropertyName) != default(IEnumerable)) return;
-            var propertyValue = GetType().GetProperty(e.PropertyName)?.GetValue(this);
-            Entity.GetType().GetProperty(e.PropertyName)?.SetValue(Entity, propertyValue);
-        }
-
-        private void OnPropertyChanging(object sender, PropertyChangingEventArgs e)
-        {
-            var validationResults = new List<ValidationResult>();
-            var propertyValue = GetType().GetProperty(e.PropertyName)?.GetValue(this);
-
-            var propertyIsValid = Validator.TryValidateProperty(propertyValue, _validationContext, validationResults);
-            if (propertyIsValid)
-                Entity.GetType().GetProperty(e.PropertyName)?.SetValue(Entity, propertyValue);
-        }
+            var errors = GetErrors(e.PropertyName);
+            if(errors is {} && errors.GetEnumerator().MoveNext())
+                ErrorsChanged(this, new DataErrorsChangedEventArgs(e.PropertyName));
+        }*/
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected virtual void OnPropertyChanging([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
 
         public IEnumerable GetErrors(string propertyName)
@@ -74,7 +51,10 @@ namespace CashTrak.App.ViewModels
         }
 
         public bool HasErrors => Validator.TryValidateObject(this, _validationContext, new List<ValidationResult>());
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-        public event PropertyChangingEventHandler PropertyChanging;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged
+        {
+            add => ErrorsChangedEventManager.AddHandler(this, value);
+            remove => ErrorsChangedEventManager.RemoveHandler(this, value);
+        }
     }
 }
