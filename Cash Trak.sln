@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashTrak", "CashTrak\CashTrak.csproj", "{40E642DF-E304-4BCD-BED2-412674478641}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashTrak.Core", "CashTrak.Core\CashTrak.Core.csproj", "{D79B301F-42CD-4516-9F59-20E78BFA3C88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashTrak.Data", "CashTrak.Data\CashTrak.Data.csproj", "{575065F8-3147-4416-B063-ED1BF756CBB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{40E642DF-E304-4BCD-BED2-412674478641}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40E642DF-E304-4BCD-BED2-412674478641}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40E642DF-E304-4BCD-BED2-412674478641}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D79B301F-42CD-4516-9F59-20E78BFA3C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D79B301F-42CD-4516-9F59-20E78BFA3C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D79B301F-42CD-4516-9F59-20E78BFA3C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D79B301F-42CD-4516-9F59-20E78BFA3C88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{575065F8-3147-4416-B063-ED1BF756CBB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{575065F8-3147-4416-B063-ED1BF756CBB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{575065F8-3147-4416-B063-ED1BF756CBB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{575065F8-3147-4416-B063-ED1BF756CBB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
