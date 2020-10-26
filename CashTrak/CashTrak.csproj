@@ -17,4 +17,19 @@
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CashTrak.Data\CashTrak.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ApplicationDefinition Remove="App.xaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="appsettings.json" />
+      <Resource Include="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+    </ItemGroup>
+
 </Project>
