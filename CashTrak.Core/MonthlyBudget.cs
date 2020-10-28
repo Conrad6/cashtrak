@@ -7,7 +7,7 @@ namespace CashTrak.Core
     public class MonthlyBudget
     {
         public Guid Id { get; set; }
-        public Month? Month { get; set; }
+        public DateTime? BudgetDate { get; set; }
         public DateTime? DateAdded { get; set; }
         public DateTime? LastUpdated { get; set; }
         public double? Budget { get; set; }
