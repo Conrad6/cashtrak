@@ -29,10 +29,12 @@ namespace CashTrak.Services
             services.AddDbContext<CashTrakContext>(ServiceLifetime.Singleton);
             
             services.AddSingleton<MainApplication>();
-            services.AddSingleton<BudgetHistoryPage>();
-            services.AddSingleton<NewBudgetEntryPage>();
-
+            
+            services.AddTransient<BudgetHistoryPage>();
+            services.AddTransient<NewBudgetEntryPage>();
+            
             services.AddTransient<BaseViewModel<MonthlyBudget>, NewBudgetEntryPageViewModel>();
+            services.AddTransient<BudgetHistoryPageViewModel>();
         }
     }
 }

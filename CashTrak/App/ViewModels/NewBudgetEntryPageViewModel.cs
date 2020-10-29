@@ -24,7 +24,7 @@ namespace CashTrak.App.ViewModels
             {
                 await _cashTrakContext.MonthlyBudgets.AddAsync(budget);
                 await _cashTrakContext.SaveChangesAsync();
-                if(NavigationService.CanGoBack)
+                if (NavigationService.CanGoBack)
                     NavigationService.GoBack();
                 else
                 {
@@ -41,6 +41,7 @@ namespace CashTrak.App.ViewModels
             navigationService)
         {
             _cashTrakContext = cashTrakContext;
+            PropertyChanged += (_, __) => SaveCommand.CanExecute(this);
         }
 
         [Required(ErrorMessage = "Month value is required")]
@@ -68,7 +69,7 @@ namespace CashTrak.App.ViewModels
         }
 
         public ICommand SaveCommand { get; } = new MonthlyBudgetSaveCommand(
-            o => Validator.TryValidateObject(o, new ValidationContext(o), new List<ValidationResult>()),
+            o => !(o is null) && Validator.TryValidateObject(o, new ValidationContext(o), new List<ValidationResult>()),
             o =>
             {
                 var _this = o as NewBudgetEntryPageViewModel;

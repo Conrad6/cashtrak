@@ -7,33 +7,21 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Navigation;
 using CashTrak.Annotations;
-using CashTrak.Extensions;
 
 namespace CashTrak.App.ViewModels
 {
-    public abstract class BaseViewModel<TEntity> : INotifyPropertyChanged, INotifyDataErrorInfo
-        where TEntity : class, new()
+    public abstract class BaseViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         public NavigationService NavigationService { get; }
-        public TEntity Entity { get; }
         private readonly ValidationContext _validationContext;
-
         public event PropertyChangedEventHandler PropertyChanged;
         
         protected BaseViewModel(NavigationService navigationService)
         {
             NavigationService = navigationService;
-            Entity = new TEntity();
             _validationContext = new ValidationContext(this);
-//            PropertyChanged += CheckErrors;
         }
-
-        /*private void CheckErrors(object sender, PropertyChangedEventArgs e)
-        {
-            var errors = GetErrors(e.PropertyName);
-            if(errors is {} && errors.GetEnumerator().MoveNext())
-                ErrorsChanged(this, new DataErrorsChangedEventArgs(e.PropertyName));
-        }*/
+        
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -55,6 +43,15 @@ namespace CashTrak.App.ViewModels
         {
             add => ErrorsChangedEventManager.AddHandler(this, value);
             remove => ErrorsChangedEventManager.RemoveHandler(this, value);
+        }
+    }
+
+    public abstract class BaseViewModel<TEntity> : BaseViewModel where TEntity : class, new()
+    {
+        protected TEntity Entity { get; }
+        protected BaseViewModel(NavigationService navigationService):base(navigationService)
+        {
+            Entity = new TEntity();
         }
     }
 }
